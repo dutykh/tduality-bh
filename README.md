@@ -31,13 +31,19 @@ m(r) = M r³ / (r² + ℓ₀²)^(3/2),        f(r) = 1 - 2 M r² / (r² + ℓ₀
 where `ℓ₀` is the zero-point length induced by the T-duality–modified
 propagator. The analysis separates three logically distinct questions: local
 curvature regularity, global geodesic completeness, and dynamical stability of
-the inner Cauchy horizon. The codes in this repository produce the figure and
-the numerical convergence and stability checks used in that analysis:
+the inner Cauchy horizon. The codes in this repository produce the manuscript
+figures and the numerical convergence and stability checks used in that
+analysis:
 
-1. a direct comparison of the exact proper time against the endpoint
-   prescription along the Painlevé–Gullstrand radial congruence
-   (geodesic-completeness diagnostic, Figure 1 of the manuscript), and
-2. a Chebyshev spectral quasinormal-mode (QNM) solver for the scalar and
+1. a set of Python (Matplotlib) scripts that render the analytic figures of the
+   manuscript: the effective potentials for causal geodesics, the three local
+   radial diagnostics of the core, the light-ring/horizon thresholds, the
+   horizon phase diagram with the surface gravities, the zero-point-length form
+   factor with the classical-versus-filtered mass inflation, and the exact
+   versus endpoint proper time along the Painlevé–Gullstrand congruence;
+2. a Julia reproduction of the proper-time comparison
+   (geodesic-completeness diagnostic), and
+3. a Chebyshev spectral quasinormal-mode (QNM) solver for the scalar and
    electromagnetic perturbation sectors, including a three-resolution
    convergence check and a positive-imaginary-part (growing-mode) test of
    Cauchy-horizon stability.
@@ -48,9 +54,18 @@ the numerical convergence and stability checks used in that analysis:
 tduality-bh/
 ├── README.md
 ├── LICENSE                                          GNU LGPL v2.1
+├── python/
+│   ├── ku_style.py                                  shared Matplotlib style/helpers
+│   ├── fig_geodesic_potentials.py                   effective potentials (timelike/null)
+│   ├── fig_three_scale_diagnostic.py                three local radial diagnostics
+│   ├── fig_lightring_structure.py                   light-ring/horizon thresholds
+│   ├── fig_horizon_phase_kappa.py                   horizon phase diagram + surface gravities
+│   ├── fig_tduality_filter.py                       form factor + filtered mass inflation
+│   └── fig_proper_time_comparison.py                exact vs endpoint proper time
+├── figures/                                         rendered figure PDFs
 ├── julia/
 │   ├── Project.toml                                 pinned Julia environment
-│   ├── tau_comparison.jl                            geodesic figure (Fig. 1)
+│   ├── tau_comparison.jl                            geodesic figure
 │   └── TD_spectral_solver_with_unstable_check.jl    QNM spectral solver
 ├── maple/
 │   ├── 01-CASE-s0_s1-SUPPLEMENTAL MATERIAL.mw        symbolic derivation
@@ -60,6 +75,13 @@ tduality-bh/
 ```
 
 ## Requirements
+
+**Python** 3 with `numpy`, `scipy` and `matplotlib`, used by the figure scripts
+in `python/`. No virtual environment is pinned; install the three packages with
+
+```bash
+pip install numpy scipy matplotlib
+```
 
 **Julia** (tested with 1.12; the environment declares `julia = "1.10"` as the
 lower bound). The non-standard-library dependencies are pinned in
@@ -86,10 +108,41 @@ julia --project=julia -e 'using Pkg; Pkg.instantiate()'
 
 ## Codes
 
-### 1. Geodesic-completeness figure
+### 1. Analytic figures (Python)
 
-[`julia/tau_comparison.jl`](julia/tau_comparison.jl) reproduces Figure 1 of the
-manuscript. Along the selected Painlevé–Gullstrand radial infalling congruence
+The scripts in `python/` render the analytic figures of the manuscript. They
+share `ku_style.py`, which fixes a consistent publication style (serif text,
+Computer Modern math fonts, a fixed colour palette) and exposes a `savefig`
+helper that writes a vector PDF. Each script is standalone and run from inside
+the `python/` directory:
+
+```bash
+cd python
+python fig_geodesic_potentials.py
+python fig_three_scale_diagnostic.py
+python fig_lightring_structure.py
+python fig_horizon_phase_kappa.py
+python fig_tduality_filter.py
+python fig_proper_time_comparison.py
+```
+
+| Script                          | Figure                                                                                              |
+| ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `fig_geodesic_potentials.py`    | timelike and null effective potentials; the centrifugal barrier blocks non-radial geodesics at `r=0`|
+| `fig_three_scale_diagnostic.py` | Newtonian, Ricci-focusing and Raychaudhuri radial diagnostics, with their three distinct scales     |
+| `fig_lightring_structure.py`    | horizon and circular-null thresholds in the `(x, μ)` plane; the horizonless ultracompact band       |
+| `fig_horizon_phase_kappa.py`    | horizon phase diagram and the inner/outer surface gravities `ℓ₀ κ_∓`                                 |
+| `fig_tduality_filter.py`        | zero-point-length form factor and the classical-versus-filtered Cauchy-horizon mass inflation       |
+| `fig_proper_time_comparison.py` | exact proper time versus the endpoint prescription along the Painlevé–Gullstrand congruence          |
+
+The rendered PDFs are collected in `figures/`. Several scripts embed `assert`
+checks against the analytic special radii and asymptotics, so a successful run
+also verifies those closed-form results.
+
+### 2. Geodesic-completeness figure (Julia)
+
+[`julia/tau_comparison.jl`](julia/tau_comparison.jl) is the Julia counterpart of
+`fig_proper_time_comparison.py`. Along the selected Painlevé–Gullstrand radial infalling congruence
 it compares the exact proper time `τ_exact(r)`, obtained by integrating
 `dr/dτ = -v(r)` in closed form, against the endpoint expression `τ_JN(r)`
 inferred from replacing the Raychaudhuri integral by `τ·F(r)`. The two curves
@@ -106,7 +159,7 @@ julia --project=julia julia/tau_comparison.jl
 This writes `tau_comparison.pdf` in the current working directory. It depends
 only on `Plots`.
 
-### 2. Quasinormal-mode spectral pipeline
+### 3. Quasinormal-mode spectral pipeline
 
 The QNM analysis is a three-stage pipeline: symbolic derivation in Maple,
 matrix assembly in Maple, and numerical eigenvalue solution in Julia.
@@ -191,13 +244,17 @@ with `<filetag> = s<S>_L<L>_q<Q>` and `N ∈ {190, 195, 200}`:
 ## Reproducing the results
 
 ```bash
-# 1. Set up the Julia environment (once).
+# 1. Analytic figures (Python).
+pip install numpy scipy matplotlib
+cd python && for f in fig_*.py; do python "$f"; done && cd ..
+
+# 2. Set up the Julia environment (once).
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
 
-# 2. Geodesic-completeness figure (Fig. 1).
+# 3. Geodesic-completeness figure.
 julia --project=julia julia/tau_comparison.jl       # -> tau_comparison.pdf
 
-# 3. QNM spectral pipeline.
+# 4. QNM spectral pipeline.
 #    a) In Maple 2024, run the assembler worksheet to export M0/M1/M2 .mat
 #       files into a data/ folder (set s, L, q and the output directory first).
 #    b) Solve and run the convergence and stability checks:
