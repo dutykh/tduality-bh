@@ -6,11 +6,11 @@
                    Technology, Abu Dhabi, UAE)
 -->
 
-# Global and dynamical viability of the string T-duality regular black hole
+# Global and dynamical viability of the T-duality-inspired Bardeen regular black hole
 
 Official code repository accompanying the manuscript
 
-> **Global and dynamical viability of the string T-duality regular black hole**
+> **Global and dynamical viability of the T-duality-inspired Bardeen regular black hole**
 > Davide Batic and Denys Dutykh, Mathematics Department, Khalifa University of
 > Science and Technology, Abu Dhabi, UAE.
 
@@ -32,8 +32,7 @@ where `ℓ₀` is the zero-point length induced by the T-duality–modified
 propagator. The analysis separates three logically distinct questions: local
 curvature regularity, global geodesic completeness, and dynamical stability of
 the inner Cauchy horizon. The codes in this repository produce the manuscript
-figures and the numerical convergence and stability checks used in that
-analysis:
+figures and the numerical checks used in that analysis:
 
 1. a set of Python (Matplotlib) scripts that render the analytic figures of the
    manuscript: the effective potentials for causal geodesics, the three local
@@ -46,7 +45,9 @@ analysis:
 3. a Chebyshev spectral quasinormal-mode (QNM) solver for the scalar and
    electromagnetic perturbation sectors, including a three-resolution
    convergence check and a positive-imaginary-part (growing-mode) test of
-   Cauchy-horizon stability.
+   Cauchy-horizon stability, and
+4. a supplementary quadrature check of the closed-form Bessel moment that
+   controls the filtered mass-inflation estimate.
 
 ## Repository layout
 
@@ -61,7 +62,8 @@ tduality-bh/
 │   ├── fig_lightring_structure.py                   light-ring/horizon thresholds
 │   ├── fig_horizon_phase_kappa.py                   horizon phase diagram + surface gravities
 │   ├── fig_tduality_filter.py                       form factor + filtered mass inflation
-│   └── fig_proper_time_comparison.py                exact vs endpoint proper time
+│   ├── fig_proper_time_comparison.py                exact vs endpoint proper time
+│   └── check_Abetas.py                              closed-form check for the Bessel moment
 ├── figures/                                         rendered figure PDFs
 ├── julia/
 │   ├── Project.toml                                 pinned Julia environment
@@ -76,8 +78,9 @@ tduality-bh/
 
 ## Requirements
 
-**Python** 3 with `numpy`, `scipy` and `matplotlib`, used by the figure scripts
-in `python/`. No virtual environment is pinned; install the three packages with
+**Python** 3 with `numpy`, `scipy` and `matplotlib`, used by the scripts in
+`python/`. The figure scripts need all three; `check_Abetas.py` needs only
+`scipy`. No virtual environment is pinned; install the three packages with
 
 ```bash
 pip install numpy scipy matplotlib
@@ -241,12 +244,53 @@ with `<filetag> = s<S>_L<L>_q<Q>` and `N ∈ {190, 195, 200}`:
 | `unstable_modes-<filetag>.txt` (+ variants)  | converged growing-mode report (or the "none" notice)|
 | `qnm_plot*-<filetag>.png` / `.html`          | scatter plots of the spectra (Re Ω, Im Ω)           |
 
+### 4. Bessel-moment check (Python)
+
+[`python/check_Abetas.py`](python/check_Abetas.py) is a supplementary check of
+the Gamma-product that the manuscript quotes for the Bessel moment governing the
+filtered Cauchy-horizon mass inflation,
+
+```text
+                ∞
+ A_{beta,s}  =  ∫  y^(beta+s+2) K₁(y)² dy
+                0
+
+                √π · Γ((beta+s+3)/2) · Γ((beta+s+5)/2) · Γ((beta+s+1)/2)
+             =  ────────────────────────────────────────────────────────
+                                  4 · Γ((beta+s+4)/2)
+```
+
+where `beta` is the infrared spectral index of the ingoing tail and `s` the
+power of the polynomial local-frequency prefactor. The two enter only through
+the sum `beta + s`, which the integral requires to exceed `-1`.
+
+The script evaluates the defining integral directly with `scipy.integrate.quad`,
+split at `y = 1` so that the algebraic behaviour near the origin and the
+exponential decay at infinity are handled by separate adaptive quadratures, and
+compares the result against the Gamma-product. The closed form is never used to
+compute the integral, so the agreement is an independent verification. The four
+sampled pairs `(beta, s)` cover a flat spectrum with no prefactor, a regular
+spectrum with `beta = 1`, a quadratic prefactor `s = 2`, and a half-integer
+combination.
+
+The script imports nothing else from `python/`, so it runs from anywhere:
+
+```bash
+python python/check_Abetas.py
+```
+
+It prints a comparison table and the largest relative difference, and exits with
+a nonzero status should that exceed `1e-12`. With SciPy 1.16 the observed
+maximum is `8.4e-16`, at the level of double-precision round-off. Only `scipy`
+is required.
+
 ## Reproducing the results
 
 ```bash
-# 1. Analytic figures (Python).
+# 1. Analytic figures and the supplementary check (Python).
 pip install numpy scipy matplotlib
 cd python && for f in fig_*.py; do python "$f"; done && cd ..
+python python/check_Abetas.py
 
 # 2. Set up the Julia environment (once).
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
@@ -269,7 +313,7 @@ If you use these codes, please cite the manuscript:
 ```bibtex
 @unpublished{BaticDutykh2026Tduality,
   author = {Batic, Davide and Dutykh, Denys},
-  title  = {Global and dynamical viability of the string {T}-duality regular black hole},
+  title  = {Global and dynamical viability of the {T}-duality-inspired {B}ardeen regular black hole},
   note   = {Preprint},
   year   = {2026}
 }
