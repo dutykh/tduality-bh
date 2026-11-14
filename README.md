@@ -6,249 +6,111 @@
                    Technology, Abu Dhabi, UAE)
 -->
 
-# Global and dynamical viability of the T-duality-inspired Bardeen regular black hole
+# tduality-bh: global and dynamical viability of the T-duality-inspired Bardeen regular black hole
 
-Official code repository accompanying the manuscript
+![The horizon phase diagram and the surface gravities of the T-duality-inspired Bardeen black hole](docs/figures/tduality-bh-horizons.png)
 
-> **Global and dynamical viability of the T-duality-inspired Bardeen regular black hole**
-> Davide Batic and Denys Dutykh, Mathematics Department, Khalifa University of
-> Science and Technology, Abu Dhabi, UAE.
+The horizons of the black hole, in units of the zero-point length ℓ₀. On the left, the mass μ = M/ℓ₀ for which the radius x = r/ℓ₀ is a horizon, μ = (x² + 1)^(3/2)/(2x²): above the extremal value μ_ext = 3√3/4 ≈ 1.299, reached at x = √2, every mass has an inner horizon x₋ and an outer horizon x₊ (for μ = 2, marked by the dotted line, x₋ ≈ 0.652 and x₊ ≈ 3.572); the two merge at extremality and disappear below it. On the right, the surface gravities of the outer horizon, ℓ₀κ₊, and of the inner (Cauchy) horizon, ℓ₀κ₋, against μ: both vanish at extremality, and at large mass the inner one grows like √(2μ) while the outer one decays like 1/(4μ) (at μ = 4, ℓ₀κ₋ ≈ 2.03 and ℓ₀κ₊ ≈ 0.061). The figure is the one of the manuscript, drawn by `python/fig_horizon_phase_kappa.py`.
 
-The full manuscript is included as
-[`pdf/T_Dual_BHs_Geodesic_Completeness.pdf`](pdf/T_Dual_BHs_Geodesic_Completeness.pdf).
+These codes accompany the article by Davide Batic and Denys Dutykh, accepted for publication in Annals of Physics, on the T-duality-inspired Bardeen black hole: the regular black hole whose static lapse is that of Bardeen with the magnetic charge replaced by the zero-point length that string T-duality induces in the propagator. The article separates four questions that are often merged, namely local curvature regularity, the extension of geodesics, the mode stability of test fields outside the black hole, and the dynamical stability of the inner Cauchy horizon. Python scripts draw the figures of the manuscript and check its closed forms, a Julia script reproduces its proper-time comparison, and Maple worksheets with a Julia solver compute quasinormal modes of scalar and electromagnetic test fields by Chebyshev collocation in high precision. The manuscript, dated 6 September 2026, is included as `pdf/T_Dual_BHs_Geodesic_Completeness.pdf`.
 
-## Overview
+## The problem
 
-The paper analyses the global and dynamical viability of the
-string-T-duality–Bardeen regular black hole, whose static, spherically
-symmetric line element is
+The line element is static and spherically symmetric, with the mass function and the lapse
 
-```
-ds² = -f(r) dt² + dr²/f(r) + r² dΩ²,   f(r) = 1 - 2 m(r)/r,
-m(r) = M r³ / (r² + ℓ₀²)^(3/2),        f(r) = 1 - 2 M r² / (r² + ℓ₀²)^(3/2),
+```text
+ds² = −f(r) dt² + dr²/f(r) + r² dΩ²,     f(r) = 1 − 2 m(r)/r,
+m(r) = M r³ / (r² + ℓ₀²)^(3/2),         so that   f(r) = 1 − 2 M r² / (r² + ℓ₀²)^(3/2),
 ```
 
-where `ℓ₀` is the zero-point length induced by the T-duality–modified
-propagator. The analysis separates three logically distinct questions: local
-curvature regularity, global geodesic completeness, and dynamical stability of
-the inner Cauchy horizon. The codes in this repository produce the manuscript
-figures and the numerical checks used in that analysis:
+where M is the mass and ℓ₀ the zero-point length. With x = r/ℓ₀ and μ = M/ℓ₀ the black-hole branch is μ > 3√3/4, with an inner and an outer horizon; the core is regular, and the article examines whether causal geodesics end or continue, how the photon spheres and light rings are arranged (including a horizonless ultracompact branch), how the inner horizon responds to the ingoing flux (mass inflation, with and without a filter of the flux by the zero-point length), and why massless scalar and electromagnetic test fields outside the black hole have no exponentially growing mode.
 
-1. a set of Python (Matplotlib) scripts that render the analytic figures of the
-   manuscript: the effective potentials for causal geodesics, the three local
-   radial diagnostics of the core, the light-ring/horizon thresholds, the
-   horizon phase diagram with the surface gravities, the zero-point-length form
-   factor with the classical-versus-filtered mass inflation, and the exact
-   versus endpoint proper time along the Painlevé–Gullstrand congruence;
-2. a Julia reproduction of the proper-time comparison
-   (geodesic-completeness diagnostic), and
-3. a Chebyshev spectral quasinormal-mode (QNM) solver for the scalar and
-   electromagnetic perturbation sectors, including a three-resolution
-   convergence check and a positive-imaginary-part (growing-mode) test of
-   Cauchy-horizon stability, and
-4. a supplementary quadrature check of the closed-form Bessel moment that
-   controls the filtered mass-inflation estimate.
+## Quick start
 
-## Repository layout
-
-```
-tduality-bh/
-├── README.md
-├── LICENSE                                          GNU LGPL v2.1
-├── python/
-│   ├── ku_style.py                                  shared Matplotlib style/helpers
-│   ├── fig_geodesic_potentials.py                   effective potentials (timelike/null)
-│   ├── fig_three_scale_diagnostic.py                three local radial diagnostics
-│   ├── fig_lightring_structure.py                   light-ring/horizon thresholds
-│   ├── fig_horizon_phase_kappa.py                   horizon phase diagram + surface gravities
-│   ├── fig_tduality_filter.py                       form factor + filtered mass inflation
-│   ├── fig_proper_time_comparison.py                exact vs endpoint proper time
-│   └── check_Abetas.py                              closed-form check for the Bessel moment
-├── figures/                                         rendered figure PDFs
-├── julia/
-│   ├── Project.toml                                 pinned Julia environment
-│   ├── tau_comparison.jl                            geodesic figure
-│   └── TD_spectral_solver_with_unstable_check.jl    QNM spectral solver
-├── maple/
-│   ├── 01-CASE-s0_s1-SUPPLEMENTAL MATERIAL.mw        symbolic derivation
-│   └── Matrix_Assembler_all_s_TD-Final Version.mw    Chebyshev matrix assembler
-└── pdf/
-    └── T_Dual_BHs_Geodesic_Completeness.pdf          the manuscript
-```
-
-## Requirements
-
-**Python** 3 with `numpy`, `scipy` and `matplotlib`, used by the scripts in
-`python/`. The figure scripts need all three; `check_Abetas.py` needs only
-`scipy`. No virtual environment is pinned; install the three packages with
+The Python scripts run from the folder `python/`, each in a few seconds:
 
 ```bash
 pip install numpy scipy matplotlib
+cd python
+for f in fig_*.py; do python "$f"; done     # the six figures of the manuscript
+python check_Abetas.py                       # the Bessel moment of the filtered mass inflation
 ```
 
-**Julia** (tested with 1.12; the environment declares `julia = "1.10"` as the
-lower bound). The non-standard-library dependencies are pinned in
-`julia/Project.toml`:
-
-| Package        | Role                                                        |
-| -------------- | ----------------------------------------------------------- |
-| `Plots`        | figure and scatter-plot rendering                           |
-| `PlotlyJS`     | interactive HTML backend for the QNM scatter plots          |
-| `GenericSchur` | generalized Schur / `eigvals` for `BigFloat` matrices       |
-
-The scripts also use the standard libraries `DelimitedFiles`, `Printf`,
-`LinearAlgebra` and `Base.Threads`, which ship with Julia.
-
-Instantiate the environment once:
+Each figure script writes its PDF into the folder `latex/figures/` at the root of the repository, which it creates when needed; the six PDFs stored in `figures/` are the figures of the manuscript, and the scripts draw them again identically. Several scripts also assert the analytic special radii and asymptotics they draw, so that a successful run checks those closed forms as well. The Julia script needs its environment once, then writes `tau_comparison.pdf` into the current folder:
 
 ```bash
 julia --project=julia -e 'using Pkg; Pkg.instantiate()'
-```
-
-**Maple** 2024.0, used by the two worksheets in `maple/` (packages
-`LinearAlgebra`, `FileTools`, `ExportMatrix`, `PDEtools`). The assembler runs at
-200 decimal digits, so `kernelopts(maxdigits)` must be at least 200.
-
-## Codes
-
-### 1. Analytic figures (Python)
-
-The scripts in `python/` render the analytic figures of the manuscript. They
-share `ku_style.py`, which fixes a consistent publication style (serif text,
-Computer Modern math fonts, a fixed colour palette) and exposes a `savefig`
-helper that writes a vector PDF. Each script is standalone and run from inside
-the `python/` directory:
-
-```bash
-cd python
-python fig_geodesic_potentials.py
-python fig_three_scale_diagnostic.py
-python fig_lightring_structure.py
-python fig_horizon_phase_kappa.py
-python fig_tduality_filter.py
-python fig_proper_time_comparison.py
-```
-
-| Script                          | Figure                                                                                              |
-| ------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `fig_geodesic_potentials.py`    | timelike and null effective potentials; the centrifugal barrier blocks non-radial geodesics at `r=0`|
-| `fig_three_scale_diagnostic.py` | Newtonian, Ricci-focusing and Raychaudhuri radial diagnostics, with their three distinct scales     |
-| `fig_lightring_structure.py`    | horizon and circular-null thresholds in the `(x, μ)` plane; the horizonless ultracompact band       |
-| `fig_horizon_phase_kappa.py`    | horizon phase diagram and the inner/outer surface gravities `ℓ₀ κ_∓`                                 |
-| `fig_tduality_filter.py`        | zero-point-length form factor and the classical-versus-filtered Cauchy-horizon mass inflation       |
-| `fig_proper_time_comparison.py` | exact proper time versus the endpoint prescription along the Painlevé–Gullstrand congruence          |
-
-The rendered PDFs are collected in `figures/`. Several scripts embed `assert`
-checks against the analytic special radii and asymptotics, so a successful run
-also verifies those closed-form results.
-
-### 2. Geodesic-completeness figure (Julia)
-
-[`julia/tau_comparison.jl`](julia/tau_comparison.jl) is the Julia counterpart of
-`fig_proper_time_comparison.py`. Along the selected Painlevé–Gullstrand radial infalling congruence
-it compares the exact proper time `τ_exact(r)`, obtained by integrating
-`dr/dτ = -v(r)` in closed form, against the endpoint expression `τ_JN(r)`
-inferred from replacing the Raychaudhuri integral by `τ·F(r)`. The two curves
-share the same congruence but differ in their small-`r` asymptotics
-(logarithmic versus power law), which is the point of the figure. The parameters
-are fixed in the file (`M = 5`, `ℓ₀ = 1`, `r_i = 4 ℓ₀`).
-
-Run it:
-
-```bash
 julia --project=julia julia/tau_comparison.jl
 ```
 
-This writes `tau_comparison.pdf` in the current working directory. It depends
-only on `Plots`.
+The quasinormal modes need Maple to assemble the matrices first, and are described below.
 
-### 3. Quasinormal-mode spectral pipeline
+## Contents
 
-The QNM analysis is a three-stage pipeline: symbolic derivation in Maple,
-matrix assembly in Maple, and numerical eigenvalue solution in Julia.
+| Path | Contents |
+| --- | --- |
+| `python/` | the figure scripts `fig_geodesic_potentials.py`, `fig_three_scale_diagnostic.py`, `fig_lightring_structure.py`, `fig_horizon_phase_kappa.py`, `fig_tduality_filter.py` and `fig_proper_time_comparison.py`, their style file `ku_style.py`, and the check `check_Abetas.py` |
+| `figures/` | the six figures of the manuscript, in PDF |
+| `julia/` | `Project.toml` (the environment), `tau_comparison.jl` (the proper-time comparison) and `TD_spectral_solver_with_unstable_check.jl` (the quasinormal-mode solver) |
+| `maple/` | `01-CASE-s0_s1-SUPPLEMENTAL MATERIAL.mw` (the derivation of the master equation) and `Matrix_Assembler_all_s_TD-Final Version.mw` (the Chebyshev assembler) |
+| `pdf/` | the manuscript |
+| `docs/figures/` | the figure of this page, a PNG image of `figures/horizon_phase_kappa.pdf` |
 
-**Stage A, symbolic derivation.**
-[`maple/01-CASE-s0_s1-SUPPLEMENTAL MATERIAL.mw`](maple/01-CASE-s0_s1-SUPPLEMENTAL%20MATERIAL.mw)
-is the supplemental material. For the `s = 0` (scalar) and `s = 1`
-(electromagnetic) sectors it derives the QNM master equation, performs the
-change of variables to the compact coordinate, and produces the `3×3` pencil
-coefficient functions `L00, …, L22` together with the boundary limits tabulated
-in the manuscript. It is purely symbolic and writes nothing to disk. The
-worksheet asks for a Maple restart at two marked points so that symbol
-assignments stay clean; follow those in-worksheet instructions when executing
-it top to bottom.
+The six figure scripts draw the following.
 
-**Stage B, matrix assembly.**
-[`maple/Matrix_Assembler_all_s_TD-Final Version.mw`](maple/Matrix_Assembler_all_s_TD-Final%20Version.mw)
-discretises the master equation with a Chebyshev spectral collocation method and
-exports the matrices of the quadratic pencil
+| Script | Figure |
+| --- | --- |
+| `fig_geodesic_potentials.py` | timelike and null effective potentials; the centrifugal barrier keeps non-radial geodesics away from r = 0 |
+| `fig_three_scale_diagnostic.py` | the Newtonian, Ricci-focusing and Raychaudhuri radial diagnostics of the core, with their three distinct scales |
+| `fig_lightring_structure.py` | the thresholds of horizons and circular null orbits in the plane (x, μ), with the horizonless ultracompact band |
+| `fig_horizon_phase_kappa.py` | the horizon phase diagram and the surface gravities ℓ₀κ₊ and ℓ₀κ₋ |
+| `fig_tduality_filter.py` | the form factor of the zero-point length and the mass inflation at the Cauchy horizon, classical and filtered |
+| `fig_proper_time_comparison.py` | the exact proper time against the endpoint prescription along the Painlevé–Gullstrand congruence |
 
-```
+## Requirements
+
+The Python scripts need Python 3 with NumPy, SciPy and Matplotlib (`check_Abetas.py` needs only SciPy); they use Matplotlib's own mathematical fonts, not LaTeX, and no environment is pinned. The Julia scripts need Julia 1.10 or later (they were run with Julia 1.12 and 1.13); `julia/Project.toml` declares their three registered packages, Plots for the figures, PlotlyJS for the interactive scatter plots of the spectra, and GenericSchur for the eigenvalues of matrices in `BigFloat` arithmetic, besides the standard libraries DelimitedFiles, Printf, LinearAlgebra and Base.Threads. The two worksheets need Maple 2024 (packages LinearAlgebra, FileTools, ExportMatrix and PDEtools); the assembler works with 200 decimal digits, so `kernelopts(maxdigits)` must be at least 200.
+
+## The proper-time comparison in Julia
+
+The script `julia/tau_comparison.jl` is the Julia counterpart of `fig_proper_time_comparison.py`. Along the radially infalling Painlevé–Gullstrand congruence it compares the exact proper time τ_exact(r), obtained by integrating dr/dτ = −v(r) in closed form, with the endpoint expression τ_JN(r) that follows from replacing the Raychaudhuri integral by τ F(r). The two curves belong to the same congruence but behave differently at small r, logarithmically against a power law, which is the point of the figure. Its parameters are fixed in the file: M = 5, ℓ₀ = 1 and the initial radius r_i = 4ℓ₀.
+
+## Quasinormal modes by Chebyshev collocation
+
+The worksheets and the solver compute the quasinormal modes of massless scalar (s = 0) and electromagnetic (s = 1) test fields outside the black hole, in three stages. The worksheet `maple/01-CASE-s0_s1-SUPPLEMENTAL MATERIAL.mw` derives the master equation of both sectors, maps it to a compact coordinate and produces the coefficient functions `L00`, …, `L22` of the 3 × 3 pencil with their limits at the ends of the interval; it is purely symbolic, writes nothing to disk, and asks for a restart of Maple at two marked points, which must be followed when it is run from top to bottom. The worksheet `maple/Matrix_Assembler_all_s_TD-Final Version.mw` discretises the master equation by Chebyshev collocation and exports the matrices of the quadratic pencil
+
+```text
 M0 + i Ω M1 + Ω² M2 = 0
 ```
 
-at the three resolutions `N = 190, 195, 200` (`nmin/nstep/nmax = 190/5/200`).
-Set the sector (`s`, `L`, `q`) and the output directory near the top of the
-worksheet, then run it. It exports MATLAB-ASCII matrix files
+at the three resolutions N = 190, 195 and 200 (`nmin`, `nstep`, `nmax` = 190, 5, 200), as MATLAB ASCII files `M0-<N>-<filetag>.mat`, `M1-<N>-<filetag>.mat` and `M2-<N>-<filetag>.mat` in a folder `data/`, where `filetag = s<S>_L<L>_q<Q>` (for example `s0_L0_q0`). The sector (`s`, `L`, `q`) and the output folder are set near the top of the worksheet, and the resolutions must match `N_VALS` in the Julia solver.
 
-```
-M0-<N>-<filetag>.mat,  M1-<N>-<filetag>.mat,  M2-<N>-<filetag>.mat
-```
-
-into a `data/` folder, where `filetag = s<S>_L<L>_q<Q>` (for example
-`s0_L0_q0`). The `N` range here must match `N_VALS` in the Julia solver.
-
-**Stage C, numerical solution.**
-[`julia/TD_spectral_solver_with_unstable_check.jl`](julia/TD_spectral_solver_with_unstable_check.jl)
-reads the `M0/M1/M2` files, linearises the quadratic pencil into a generalized
-eigenvalue problem, and solves it in `BigFloat` arithmetic at 220 decimal digits
-(`GenericSchur` provides the `BigFloat` eigensolver). It then:
-
-- filters the raw spectra to physical QNM candidates (discarding the static
-  `Ω = 0` mode and keeping damped modes under the `exp(-i ω t)` convention);
-- matches modes across the three resolutions `N = 190, 195, 200` and keeps only
-  those that agree to the tolerance `1e-4` (the convergence check);
-- separates oscillatory from purely imaginary converged modes;
-- scans the unfiltered spectra for roots with `Im Ω > 0`, which under the same
-  convention would be growing modes, as a direct test of Cauchy-horizon
-  stability (the report states `No unstable mode detected.` when none survive).
-
-Select the sector by editing the constants at the top of the file
-(`SPIN`, `ELL`, `DEFORMATION_TAG`); these must match the Maple `filetag`. Point
-the solver at the matrix files and run it:
+The solver `julia/TD_spectral_solver_with_unstable_check.jl` reads these matrices, turns the quadratic pencil into a generalised eigenvalue problem and solves it in `BigFloat` arithmetic with 220 decimal digits. It discards the static mode Ω = 0 and keeps the damped modes, under the convention exp(−iωt); it keeps the modes that agree across the three resolutions to the tolerance 10⁻⁴, and separates the oscillatory modes from the purely imaginary ones. It also scans the unfiltered spectra for roots with Im Ω > 0, which would be growing modes, and its report says "No unstable mode detected." when none survives the comparison of resolutions. This scan is a numerical counterpart of the exterior mode stability that the article proves, for these two fields on the black-hole branch; it says nothing about the inner horizon, whose mass inflation the article treats separately. The manuscript reports no frequency computed with these codes: it relates the eikonal modes to the light ring and leaves the full spectral computation to further work. No matrix or spectrum is stored in this repository: they are produced by running the worksheets and the solver. The sector is chosen by the constants `SPIN`, `ELL` and `DEFORMATION_TAG` at the top of the solver, which must match the `filetag` of the assembler, and the folder of the matrices by an environment variable:
 
 ```bash
-export TD_DATA_DIR=/path/to/data          # folder containing the M0/M1/M2 files
-export TD_OUT_DIR=/path/to/output         # optional; default is $TD_DATA_DIR/Julia/<filetag>
+export TD_DATA_DIR=/path/to/data      # folder of the M0, M1 and M2 files
+export TD_OUT_DIR=/path/to/output     # optional; by default TD_DATA_DIR/Julia/<filetag>
 julia --project=julia -t auto julia/TD_spectral_solver_with_unstable_check.jl
 ```
 
-If `TD_DATA_DIR` is unset, the solver looks for a `data/` folder next to the
-repository's `julia/` directory. The `-t auto` flag enables multithreading.
+Without `TD_DATA_DIR`, the solver looks for a folder `data/` beside `julia/`; the option `-t auto` lets it use several threads. It writes into the output folder, for the three resolutions N and the given `filetag`, the following files.
 
-#### Output files
+| File | Contents |
+| --- | --- |
+| `spectrum_finite-N<N>-<filetag>.dat` | the finite generalised eigenvalues |
+| `spectrum_candidates-N<N>-<filetag>.dat` | the spectrum left by the physical filters |
+| `stable_modes-<filetag>.txt` | the damped modes that agree across resolutions, with their differences |
+| `stable_modes-<filetag>_details.txt` | the same modes, one by one |
+| `stable_modes-<filetag>_full_precision.txt` | the same modes with all their digits |
+| `stable_modes_oscillatory-<filetag>.dat` | the oscillatory modes among them |
+| `stable_modes_pure_imag-<filetag>.dat` | the purely imaginary modes among them |
+| `unstable_candidates-N<N>-<filetag>.txt` | the roots with Im Ω > 0 at each resolution |
+| `unstable_modes-<filetag>.txt` and variants | the growing modes that agree across resolutions, or the notice that there are none |
+| `qnm_plot*-<filetag>.png` and `.html` | scatter plots of the spectra in the plane (Re Ω, Im Ω) |
 
-All output is written into `TD_OUT_DIR` (default `$TD_DATA_DIR/Julia/<filetag>`),
-with `<filetag> = s<S>_L<L>_q<Q>` and `N ∈ {190, 195, 200}`:
+## The Bessel moment of the filtered mass inflation
 
-| File                                         | Contents                                            |
-| -------------------------------------------- | --------------------------------------------------- |
-| `spectrum_finite-N<N>-<filetag>.dat`         | raw finite generalized-eigenvalue spectrum          |
-| `spectrum_candidates-N<N>-<filetag>.dat`     | spectrum after the physical-mode filters            |
-| `stable_modes-<filetag>.txt`                 | converged damped QNMs (summary table with errors)   |
-| `stable_modes-<filetag>_details.txt`         | readable per-mode details                           |
-| `stable_modes-<filetag>_full_precision.txt`  | full-precision converged modes                      |
-| `stable_modes_oscillatory-<filetag>.dat`     | converged oscillatory modes                         |
-| `stable_modes_pure_imag-<filetag>.dat`       | converged purely imaginary modes                    |
-| `unstable_candidates-N<N>-<filetag>.txt`     | per-resolution roots with `Im Ω > 0`                |
-| `unstable_modes-<filetag>.txt` (+ variants)  | converged growing-mode report (or the "none" notice)|
-| `qnm_plot*-<filetag>.png` / `.html`          | scatter plots of the spectra (Re Ω, Im Ω)           |
-
-### 4. Bessel-moment check (Python)
-
-[`python/check_Abetas.py`](python/check_Abetas.py) is a supplementary check of
-the Gamma-product that the manuscript quotes for the Bessel moment governing the
-filtered Cauchy-horizon mass inflation,
+The script `python/check_Abetas.py` checks the product of Gamma functions that the manuscript gives for the Bessel moment which controls the filtered mass inflation at the Cauchy horizon,
 
 ```text
                 ∞
@@ -260,73 +122,22 @@ filtered Cauchy-horizon mass inflation,
                                   4 · Γ((beta+s+4)/2)
 ```
 
-where `beta` is the infrared spectral index of the ingoing tail and `s` the
-power of the polynomial local-frequency prefactor. The two enter only through
-the sum `beta + s`, which the integral requires to exceed `-1`.
+where `beta` is the infrared spectral index of the ingoing tail and `s` the power of the polynomial prefactor of the local frequency. They enter only through the sum beta + s, which must exceed −1 for the integral to converge. The script evaluates the integral itself with `scipy.integrate.quad`, split at y = 1 so that the algebraic behaviour near the origin and the exponential decay at infinity are treated by separate adaptive quadratures, and compares it with the closed form, which it never uses to compute the integral. Four pairs (beta, s) are sampled: a flat spectrum without prefactor, a regular spectrum with beta = 1, a quadratic prefactor s = 2, and a half-integer combination. The script imports nothing else from `python/`, so it runs from any folder; it prints a table and the largest relative difference, and exits with a nonzero status if that difference exceeds 10⁻¹². With SciPy 1.16 to 1.18 the largest difference is 8.4 × 10⁻¹⁶.
 
-The script evaluates the defining integral directly with `scipy.integrate.quad`,
-split at `y = 1` so that the algebraic behaviour near the origin and the
-exponential decay at infinity are handled by separate adaptive quadratures, and
-compares the result against the Gamma-product. The closed form is never used to
-compute the integral, so the agreement is an independent verification. The four
-sampled pairs `(beta, s)` cover a flat spectrum with no prefactor, a regular
-spectrum with `beta = 1`, a quadratic prefactor `s = 2`, and a half-integer
-combination.
+## How to cite
 
-The script imports nothing else from `python/`, so it runs from anywhere:
+The article that these codes accompany has been accepted for publication in Annals of Physics (9 November 2026); its volume, article number and DOI are not known yet:
 
-```bash
-python python/check_Abetas.py
-```
+D. Batic and D. Dutykh, Global and dynamical viability of the T-duality-inspired Bardeen regular black hole, accepted for publication in Annals of Physics (2026).
 
-It prints a comparison table and the largest relative difference, and exits with
-a nonzero status should that exceed `1e-12`. With SciPy 1.16 the observed
-maximum is `8.4e-16`, at the level of double-precision round-off. Only `scipy`
-is required.
+Until it appears, the button "Cite this repository" in the right-hand column of this page gives the reference of the software itself, read from `CITATION.cff`.
 
-## Reproducing the results
+## Licence
 
-```bash
-# 1. Analytic figures and the supplementary check (Python).
-pip install numpy scipy matplotlib
-cd python && for f in fig_*.py; do python "$f"; done && cd ..
-python python/check_Abetas.py
-
-# 2. Set up the Julia environment (once).
-julia --project=julia -e 'using Pkg; Pkg.instantiate()'
-
-# 3. Geodesic-completeness figure.
-julia --project=julia julia/tau_comparison.jl       # -> tau_comparison.pdf
-
-# 4. QNM spectral pipeline.
-#    a) In Maple 2024, run the assembler worksheet to export M0/M1/M2 .mat
-#       files into a data/ folder (set s, L, q and the output directory first).
-#    b) Solve and run the convergence and stability checks:
-export TD_DATA_DIR=/path/to/data
-julia --project=julia -t auto julia/TD_spectral_solver_with_unstable_check.jl
-```
-
-## Citation
-
-If you use these codes, please cite the manuscript:
-
-```bibtex
-@unpublished{BaticDutykh2026Tduality,
-  author = {Batic, Davide and Dutykh, Denys},
-  title  = {Global and dynamical viability of the {T}-duality-inspired {B}ardeen regular black hole},
-  note   = {Preprint},
-  year   = {2026}
-}
-```
-
-## License
-
-The code in this repository is released under the GNU Lesser General Public
-License v2.1. See [`LICENSE`](LICENSE) for the full text.
+GNU Lesser General Public License, version 2.1 (see `LICENSE`).
 
 ## Authors
 
-- Davide Batic, Mathematics Department, Khalifa University of Science and
-  Technology, Abu Dhabi, UAE. `davide.batic@ku.ac.ae`
-- Denys Dutykh, Mathematics Department, Khalifa University of Science and
-  Technology, Abu Dhabi, UAE. `denys.dutykh@ku.ac.ae`
+Davide Batic (davide.batic@ku.ac.ae) and Denys Dutykh (denys.dutykh@ku.ac.ae), Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, United Arab Emirates.
+
+https://www.denys-dutykh.com/
