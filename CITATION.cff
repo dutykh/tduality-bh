@@ -3,7 +3,8 @@
 #
 # Citation metadata in Citation File Format 1.2.0, from which GitHub draws its button
 # "Cite this repository". The preferred citation is the published article; the software
-# itself is described above it, with the version of its latest release.
+# itself is described above it, with the version of its latest release and the DOIs of its
+# archive on Zenodo.
 
 cff-version: 1.2.0
 message: "If you use these codes, please cite the article given as the preferred citation."
@@ -20,6 +21,11 @@ type: software
 version: "1.0.1"
 date-released: "2026-11-17"
 license: LGPL-2.1-only
+doi: 10.5281/zenodo.24323057
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24323056
+    description: "The concept DOI of the archive on Zenodo, which always leads to its latest version."
 repository-code: "https://github.com/dutykh/tduality-bh"
 url: "https://doi.org/10.1016/j.aop.2026.170842"
 keywords:

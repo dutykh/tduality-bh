@@ -146,6 +146,10 @@ https://doi.org/10.1016/j.aop.2026.170842
 
 The button "Cite this repository" in the right-hand column of this page gives the same reference, in the formats APA and BibTeX, read from `CITATION.cff`.
 
+The codes of version 1.0.1 of this repository are archived on Zenodo under the DOI 10.5281/zenodo.24323057, a record that names the article as the publication it supplements. To refer to the codes themselves, quote the concept DOI of the archive, which always leads to its latest version:
+
+https://doi.org/10.5281/zenodo.24323056
+
 ## Licence
 
 GNU Lesser General Public License, version 2.1 (see `LICENSE`).
