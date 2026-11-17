@@ -12,7 +12,7 @@
 
 The horizons of the black hole, in units of the zero-point length ℓ₀. On the left, the mass μ = M/ℓ₀ for which the radius x = r/ℓ₀ is a horizon, μ = (x² + 1)^(3/2)/(2x²): above the extremal value μ_ext = 3√3/4 ≈ 1.299, reached at x = √2, every mass has an inner horizon x₋ and an outer horizon x₊ (for μ = 2, marked by the dotted line, x₋ ≈ 0.652 and x₊ ≈ 3.572); the two merge at extremality and disappear below it. On the right, the surface gravities of the outer horizon, ℓ₀κ₊, and of the inner (Cauchy) horizon, ℓ₀κ₋, against μ: both vanish at extremality, and at large mass the inner one grows like √(2μ) while the outer one decays like 1/(4μ) (at μ = 4, ℓ₀κ₋ ≈ 2.03 and ℓ₀κ₊ ≈ 0.061). The figure is the one of the manuscript, drawn by `python/fig_horizon_phase_kappa.py`.
 
-These codes accompany the article by Davide Batic and Denys Dutykh, accepted for publication in Annals of Physics, on the T-duality-inspired Bardeen black hole: the regular black hole whose static lapse is that of Bardeen with the magnetic charge replaced by the zero-point length that string T-duality induces in the propagator. The article separates four questions that are often merged, namely local curvature regularity, the extension of geodesics, the mode stability of test fields outside the black hole, and the dynamical stability of the inner Cauchy horizon. Python scripts draw the figures of the manuscript and check its closed forms, a Julia script reproduces its proper-time comparison, and Maple worksheets with a Julia solver compute quasinormal modes of scalar and electromagnetic test fields by Chebyshev collocation in high precision. The manuscript, dated 6 September 2026, is included as `pdf/T_Dual_BHs_Geodesic_Completeness.pdf`.
+These codes accompany the article by Davide Batic and Denys Dutykh, published in Annals of Physics (volume 496, article 170842, January 2027), on the T-duality-inspired Bardeen black hole: the regular black hole whose static lapse is that of Bardeen with the magnetic charge replaced by the zero-point length that string T-duality induces in the propagator. The article separates four questions that are often merged, namely local curvature regularity, the extension of geodesics, the mode stability of test fields outside the black hole, and the dynamical stability of the inner Cauchy horizon. Python scripts draw the figures of the manuscript and check its closed forms, a Julia script reproduces its proper-time comparison, and Maple worksheets with a Julia solver compute quasinormal modes of scalar and electromagnetic test fields by Chebyshev collocation in high precision. An author version of the manuscript, dated 6 September 2026, is included as `pdf/T_Dual_BHs_Geodesic_Completeness.pdf`; the version of record is the published article, given with its DOI under "How to cite" below.
 
 ## The problem
 
@@ -126,11 +126,25 @@ where `beta` is the infrared spectral index of the ingoing tail and `s` the powe
 
 ## How to cite
 
-The article that these codes accompany has been accepted for publication in Annals of Physics (9 November 2026); its volume, article number and DOI are not known yet:
+If you use these codes, please cite the article:
 
-D. Batic and D. Dutykh, Global and dynamical viability of the T-duality-inspired Bardeen regular black hole, accepted for publication in Annals of Physics (2026).
+D. Batic and D. Dutykh, Global and dynamical viability of the T-duality-inspired Bardeen regular black hole, Annals of Physics 496, 170842 (2027). The article was published online on 16 November 2026.
 
-Until it appears, the button "Cite this repository" in the right-hand column of this page gives the reference of the software itself, read from `CITATION.cff`.
+https://doi.org/10.1016/j.aop.2026.170842
+
+```bibtex
+@article{Batic2027,
+  author = {Batic, Davide and Dutykh, Denys},
+  title = {Global and Dynamical Viability of the {{T}}-Duality-Inspired {{Bardeen}} Regular Black Hole},
+  journal = {Annals of Physics},
+  year = 2027,
+  volume = {496},
+  pages = {170842},
+  doi = {10.1016/j.aop.2026.170842}
+}
+```
+
+The button "Cite this repository" in the right-hand column of this page gives the same reference, in the formats APA and BibTeX, read from `CITATION.cff`.
 
 ## Licence
 

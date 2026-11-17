@@ -2,26 +2,26 @@
 # of Science and Technology, Abu Dhabi, UAE)
 #
 # Citation metadata in Citation File Format 1.2.0, from which GitHub draws its button
-# "Cite this repository". The article that these codes accompany has been accepted for
-# publication in Annals of Physics but has no published record yet, so the software itself
-# is cited.
+# "Cite this repository". The preferred citation is the published article; the software
+# itself is described above it, with the version of its latest release.
 
 cff-version: 1.2.0
-message: "If you use these codes, please cite this software as given below."
+message: "If you use these codes, please cite the article given as the preferred citation."
 title: "tduality-bh: codes for the global and dynamical viability of the T-duality-inspired Bardeen regular black hole"
 abstract: >-
   Python, Julia and Maple codes accompanying the article "Global and dynamical viability of
-  the T-duality-inspired Bardeen regular black hole" by D. Batic and D. Dutykh, accepted for
-  publication in Annals of Physics. The Python scripts draw the figures of the manuscript
-  (geodesic potentials, radial diagnostics of the core, light rings, horizons and surface
-  gravities, the filtered mass inflation, proper times) and check the closed form of a Bessel
-  moment; the Maple worksheets and the Julia solver compute quasinormal modes of scalar and
+  the T-duality-inspired Bardeen regular black hole" by D. Batic and D. Dutykh, Annals of
+  Physics 496, 170842 (2027). The Python scripts draw the figures of the article (geodesic
+  potentials, radial diagnostics of the core, light rings, horizons and surface gravities,
+  the filtered mass inflation, proper times) and check the closed form of a Bessel moment;
+  the Maple worksheets and the Julia solver compute quasinormal modes of scalar and
   electromagnetic test fields by Chebyshev collocation in high precision.
 type: software
-version: "1.0.0"
-date-released: "2026-11-15"
+version: "1.0.1"
+date-released: "2026-11-17"
 license: LGPL-2.1-only
 repository-code: "https://github.com/dutykh/tduality-bh"
+url: "https://doi.org/10.1016/j.aop.2026.170842"
 keywords:
   - bardeen-black-hole
   - black-holes
@@ -44,3 +44,23 @@ authors:
     given-names: Denys
     affiliation: "Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, United Arab Emirates"
     orcid: "https://orcid.org/0000-0001-5247-2788"
+preferred-citation:
+  type: article
+  title: "Global and dynamical viability of the T-duality-inspired Bardeen regular black hole"
+  authors:
+    - family-names: Batic
+      given-names: Davide
+      orcid: "https://orcid.org/0000-0002-7619-4900"
+    - family-names: Dutykh
+      given-names: Denys
+      orcid: "https://orcid.org/0000-0001-5247-2788"
+  journal: "Annals of Physics"
+  volume: 496
+  start: 170842
+  year: 2027
+  month: 1
+  publisher:
+    name: Elsevier
+  issn: "0003-4916"
+  doi: "10.1016/j.aop.2026.170842"
+  url: "https://doi.org/10.1016/j.aop.2026.170842"

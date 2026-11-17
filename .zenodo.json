@@ -1,0 +1,39 @@
+{
+  "title": "tduality-bh: codes for the global and dynamical viability of the T-duality-inspired Bardeen regular black hole",
+  "upload_type": "software",
+  "description": "<p>Python, Julia and Maple codes accompanying the article by Davide Batic and Denys Dutykh, <em>Global and dynamical viability of the T-duality-inspired Bardeen regular black hole</em>, Annals of Physics 496, 170842 (2027), <a href=\"https://doi.org/10.1016/j.aop.2026.170842\">https://doi.org/10.1016/j.aop.2026.170842</a>. The black hole studied there is static and spherically symmetric, with the lapse f(r) = 1 − 2Mr²/(r² + ℓ₀²)^(3/2), that of Bardeen with the magnetic charge replaced by the zero-point length ℓ₀ that string T-duality induces in the propagator.</p><p>The Python scripts draw the figures of the article (geodesic potentials, radial diagnostics of the core, light rings, horizons and surface gravities, the classical and filtered mass inflation at the Cauchy horizon, proper times along the Painlevé–Gullstrand congruence) and check the closed form of the Bessel moment of the filtered mass inflation; a Julia script repeats the proper-time comparison; and Maple worksheets with a Julia solver compute quasinormal modes of massless scalar and electromagnetic test fields by Chebyshev collocation with 220 decimal digits, at three resolutions, with a scan for growing modes.</p><p>If you use these codes, please cite the article.</p>",
+  "creators": [
+    {
+      "name": "Batic, Davide",
+      "affiliation": "Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, United Arab Emirates",
+      "orcid": "0000-0002-7619-4900"
+    },
+    {
+      "name": "Dutykh, Denys",
+      "affiliation": "Mathematics Department, Khalifa University of Science and Technology, Abu Dhabi, United Arab Emirates",
+      "orcid": "0000-0001-5247-2788"
+    }
+  ],
+  "keywords": [
+    "Bardeen black hole",
+    "regular black holes",
+    "T-duality",
+    "zero-point length",
+    "general relativity",
+    "geodesic completeness",
+    "mass inflation",
+    "quasinormal modes",
+    "spectral methods",
+    "reproducible research"
+  ],
+  "license": "lgpl-2.1-only",
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "10.1016/j.aop.2026.170842",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    }
+  ]
+}
